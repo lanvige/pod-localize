@@ -1,0 +1,6 @@
+
+# Mac finder
+.DS_Store
+
+# pods sync
+mirror/

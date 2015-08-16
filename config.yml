@@ -1,0 +1,52 @@
+# config.yml
+---
+#master_repo: https://git.oschina.net/6david9/Specs.git
+master_repo: https://gitcafe.com/fannheyward/CocoaPodsSpecs.git
+mirror:
+  specs_push_url: http://mobilev5.d2labs.cn/pods-mirror/Specs.git
+  source_push_url: http://mobilev5.d2labs.cn/pods-mirror
+  source_clone_url: http://mobilev5.d2labs.cn/pods-mirror
+  gitlab:
+    acccess_token: yym9DGNy8vzt6koQDsRd
+    organisation: 2
+    endpoint: http://mobilev5.d2labs.cn/api/v3
+
+pod_items:
+  - AFNetworking
+  - Aspects
+  - FormatterKit
+  - CocoaLumberjack
+  - FCModel
+  - FMDB
+  - HexColors
+  - UIActionSheet+Blocks
+  - UMengAnalytics
+  - LBBlurredImage
+  - UIAlertView+Blocks
+  - UIActionSheet+Blocks
+  - UIView+Positioning
+  - AFNetworking
+  - Aspects
+  - CocoaLumberjack
+  - CocoaSecurity
+  - FCModel
+  - FMDB
+  - FormatterKit
+  - FXForms
+  - GZIP
+  - HexColors
+  - ios-vendor-AnimatedGIFImageSerialization
+  - ios-vendor-tmcache
+  - ios-vendor-uzysanimatedgifpulltorefresh
+  - LBBlurredImage
+  - Mantle
+  - RMUniversalAlert
+  - SDWebImage
+  - SVProgressHUD
+  - SnapKit
+
+
+# 不需要同步到本地的。如国内的友盟。
+pod_skips:
+  - UMengAnalytics
+  - UMSAnalytics
