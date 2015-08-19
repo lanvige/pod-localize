@@ -14,12 +14,16 @@ class Configuration
     @yaml['master_repo']
   end
 
-  def pod_items
-    @yaml['pod_items']
+  def pods
+    @yaml['pods']
   end
 
-  def pod_skips
-    @yaml['pod_skips']
+  def podfiles
+    @yaml['podfiles']
+  end
+  
+  def ignorepods
+    @yaml['ignorepods']
   end
 
   def mirror
@@ -30,6 +34,8 @@ class Configuration
       context['source_clone_url'],
       gitlab)
   end
+
+  
 
   private
 

@@ -13,7 +13,6 @@ module PodLocalize
       ]
 
       def initialize(argv)
-        p '==init====='
         @yml_path = argv.shift_argument
       end
 
@@ -23,12 +22,9 @@ module PodLocalize
 
       def setup(temp_path:)
         @config = Configuration.new(path: @yml_path)
-        p '==dependencies white list====='
         @master_specs = Specs.new(path: File.join(temp_path, 'master'), whitelist: dependencies, specs_root: 'Specs')
         @internal_specs = Specs.new(path: File.join(temp_path, 'local'))
-        @skipped_pod_items = skipped_pods
-        p '@skipped_pod_items'
-        p  @skipped_pod_items
+        @ignorepods = ignore_pods
       end
 
       def bootstrap
@@ -42,7 +38,7 @@ module PodLocalize
         @internal_specs.pods.each do |pod|
           pod.versions.each do |version|
             if version.contents["source"]["git"]
-              pod_name = pod_new_name(pod_name: pod.name)
+              pod_name = fix_pod_name(pod_name: pod.name)
               version.contents["source"]["git"] = "#{@config.mirror.source_clone_url}/#{pod_name.downcase}.git"
             end
           end
@@ -61,22 +57,19 @@ module PodLocalize
         @master_specs.pods.each do |pod|
           # 判断是不是要跳过 Pod Git Mirror
           
-          if @skipped_pod_items.include?(pod.name)
+          if @ignorepods.include?(pod.name)
             p '判断是不是要跳过 Pod Git Mirror'
             p pod.name
 
             return
           end
 
-          p '====================='
-
           # 更新 Podname
-          pod_name = pod_new_name(pod_name: pod.name)
+          pod_name = fix_pod_name(pod_name: pod.name)
 
           pod.git.path = File.join(temp_path, 'source_cache', pod_name)
           pod.git.clone(url: pod.git_source, options: ". --bare")
 
-          p '====create_gitlab_repocr====='
 
           pod.git.create_gitlab_repo(
             access_token: @config.mirror.gitlab.access_token,
@@ -97,30 +90,21 @@ module PodLocalize
       def dependencies
         pods_dependencies = []
 
-        p '==@config.pod_items'
-        p @config.pod_items
-
-        @config.pod_items.each do |pod_item|
-          p '==pod_imte'
-          p pod_item
-          
-          pods_dependencies << pod_item
-
-          p '==pods_dependencies'
-          p pods_dependencies
+        @config.podfiles.each do |podfile|
+          podfile_contents = open(podfile, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}) { |io| io.read }
+          pods_dependencies << YAML.load(podfile_contents)["SPEC CHECKSUMS"].keys
         end
+        pods_dependencies << @config.pods
+        
+        podss = pods_dependencies.flatten!.uniq!
 
-        b = pods_dependencies.uniq
-        return b
+        return podss
       end
 
-      def skipped_pods
-        p 'skipped_podsskipped_podsskipped_podsskipped_podsskipped_podsskipped_podsskipped_pods'
+      def ignore_pods
         skipped_pod_items = []
 
-        p @config.pod_skips
-
-        @config.pod_skips.each do |pod_item|
+        @config.ignorepods.each do |pod_item|
           skipped_pod_items << pod_item
         end
 
@@ -128,13 +112,8 @@ module PodLocalize
         return b
       end
 
-      def pod_new_name(pod_name:)
-        p '==origin pod name'
+      def fix_pod_name(pod_name:)
         pod_name.gsub!('+','-')
-
-        p '==new pod_name'
-        p pod_name
-
         return pod_name
       end
 
