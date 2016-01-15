@@ -9,44 +9,30 @@
 ### build
 
 ``` bash
+$ bundle update
+
 $ gem build pod-localize.gemspec
-# 会生成一个 .gem 文件 > pod-localize-0.1.0.gem
+# 会生成一个 .gem 文件 > pod-localize-0.2.0.gem
 ```
 
 
 ### Install
 
 ```bash
-$ gem install pod-localize-0.1.0.gem --local
+$ gem install pod-localize-0.2.0.gem --local
 ```
 
 
 ### RUN
 
 
-
-
-```
-RUBYLIB="lib" bin/pod-localize sync config.yml
+``` ruby
+$ pod-localize sync config.yml
 ```
 
 
-##### Run Gem binary localize
 
-<http://stackoverflow.com/questions/16327906/test-a-ruby-gem-binary>
-
-XNGPodSynchronizer reads `Podfile.locks` of your projects, copies the `.podspec`s from the CocoaPods master repository and mirrors it to your own `git` repository (e.g. GitHub Enterprise). This helps you get independent from `github.com`.
-
-
-## Installation
-
-XNGPodSynchronizer is distributed as a Ruby gem and can be installed using the following command:
-
-```bash
-$ gem install pod-synchronize
-```
-
-## Usage
+## Config
 
 XNGPodSynchronizer takes a `config.yml` as an argument an example `Yaml` would look like this:
 
@@ -85,22 +71,8 @@ We use Jenkins to run the synchronize process twice daily. To do that use the fo
 $ pod-synchronize synchronize config.yml
 ```
 
+
 ## TODO
 
-* Support Gitlab [#1](https://github.com/xing/XNGPodSynchronizer/issue/1)
-
-## Contributing
-
-1. Fork it ( https://github.com/xing/XNGPodSynchronizer/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
-
-## Authors
-
-[Matthias Männich](https://github.com/matthias-maennich) and [Piet Brauer](https://github.com/pietbrauer)
-
-Copyright (c) 2015 [XING AG](https://xing.com/)
-
-Released under the MIT license. For full details see LICENSE included in this distribution.
+- 现在是代码都存在 tmp 里，每次都需要重新接取（git clone），而不能更新 （git pull）。比较慢。
+- 有些项目用的是文件引用，而不是源码引用，下载文件时，依然很慢。

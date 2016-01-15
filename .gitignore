@@ -4,4 +4,4 @@
 
 # pods sync
 mirror/
-.gem
+*.gem
