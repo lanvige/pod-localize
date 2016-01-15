@@ -1,10 +1,36 @@
 # PodLocalize
 
+本库是用来同步 CocoaPods 包到本地 Gitlab 仓库。
+
+
+
+## 如何使用本包
+
+### build
+
+``` bash
+$ gem build pod-localize.gemspec
+# 会生成一个 .gem 文件 > pod-localize-0.1.0.gem
+```
+
+
+### Install
+
+```bash
+$ gem install pod-localize-0.1.0.gem --local
+```
+
+
 ### RUN
+
+
+
 
 ```
 RUBYLIB="lib" bin/pod-localize sync config.yml
 ```
+
+
 ##### Run Gem binary localize
 
 <http://stackoverflow.com/questions/16327906/test-a-ruby-gem-binary>

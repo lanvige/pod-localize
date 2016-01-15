@@ -1,7 +1,7 @@
 # coding: utf-8
 Gem::Specification.new do |spec|
   spec.name         = "pod-localize"
-  spec.version      = "0.1.0"
+  spec.version      = "0.2.0"
   spec.authors      = ["Lanvige Jiang"]
   spec.email        = ["lanvige@gmail.com"]
   spec.summary      = %q{Mirrors CocoaPods specs}

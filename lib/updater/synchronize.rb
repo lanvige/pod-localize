@@ -56,18 +56,19 @@ module PodLocalize
       def update_sources(temp_path:)
         @master_specs.pods.each do |pod|
           # 判断是不是要跳过 Pod Git Mirror
-          
-          if @ignorepods.include?(pod.name)
-            p '判断是不是要跳过 Pod Git Mirror'
-            p pod.name
+          p '这是哪一个'
+          p pod.name
 
-            return
-          end
+          next if @ignorepods.include?(pod.name)
 
           # 更新 Podname
           pod_name = fix_pod_name(pod_name: pod.name)
 
           pod.git.path = File.join(temp_path, 'source_cache', pod_name)
+
+          p 'pod path ======='
+          p pod.git.path
+          
           pod.git.clone(url: pod.git_source, options: ". --bare")
 
 
@@ -97,7 +98,8 @@ module PodLocalize
         pods_dependencies << @config.pods
         
         podss = pods_dependencies.flatten!.uniq!
-
+        p '================'
+        p podss
         return podss
       end
 
